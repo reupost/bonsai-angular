@@ -1,0 +1,9 @@
+<label>Select a taxon: </label>
+<select>
+    <option *ngFor="let item of getTaxonPage() trackBy:getID"
+        (click)="selectedTaxon=item">
+
+      {{item.fullName}}
+
+    </option>
+</select>

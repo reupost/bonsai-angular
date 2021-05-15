@@ -8,12 +8,13 @@ import { AppComponent } from './app.component';
 import { CounterDirective } from './counter.directive';
 import { HomeComponent } from './home';
 import { TaxonListComponent } from './taxon';
+import { TaxonSelectComponent } from './taxon';
 import { BonsaiListComponent } from './bonsai';
 import { ModelModule } from './model.module';
 
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent, TaxonListComponent, BonsaiListComponent, CounterDirective
+    AppComponent, HomeComponent, TaxonListComponent, TaxonSelectComponent, BonsaiListComponent, CounterDirective
   ],
   imports: [
     BrowserModule,

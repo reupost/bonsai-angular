@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { BonsaiRepository } from './bonsaiRepository.model';
+import { TaxonSelectComponent } from '../taxon/taxonSelect.component';
+// import { TaxonRepository } from '../taxon/taxonRepository.model';
 import { Bonsai } from './bonsai.model';
 import { LOCALE_ID, Inject } from '@angular/core';
 
@@ -9,13 +11,16 @@ import { LOCALE_ID, Inject } from '@angular/core';
   styleUrls: ['./bonsai.component.css']
 })
 export class BonsaiListComponent {
-  constructor(private model: BonsaiRepository, @Inject(LOCALE_ID) public locale: string) {
+  constructor(private model: BonsaiRepository, /* @Inject(TaxonSelectComponent) private taxonSelect: TaxonSelectComponent, */
+      @Inject(LOCALE_ID) public locale: string) {
       console.log('locale', this.locale);
   }
   stylingBy = 'style';
   selectedBonsai: Bonsai = null;
   mouseoverBonsaiID = 0;
   newBonsaiTag: number = null;
+
+  // selectTaxon = new TaxonSelectComponent();
 
   sortListBy = 'tag';
   sortListOrder = 'ASC';
