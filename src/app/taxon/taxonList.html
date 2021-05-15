@@ -1,0 +1,94 @@
+<div class="text-white m-2">
+  <div class="bg-info p-2">
+    There are {{getTaxaCount()}} species.
+  </div>
+  <div class="bg-info text-white p-2">
+    Selected Species: {{selectedTaxon?.fullName || '(None)'}}
+  </div>
+  <div *ngIf="selectedTaxon" class="form-group w-25">
+    <label>No. bonsais</label>
+    <input class="form-control" [(ngModel)]="newBonsaiCount" />
+    <div class="clearfix">
+    <button class="btn btn-primary float-right mt-2" (click)="updateTaxonBonsaiCount()">Update</button>
+    </div>
+  </div>
+  <div class="bg-secondary">
+    Choose styling:
+    <input type="radio" name="listStyle"
+                           [checked]="stylingBy === 'generalType'"
+                           value='General type'
+                           (change)="setStylingBy('generalType')"> Type
+    <input type="radio" name="listStyle"
+           [checked]="stylingBy === 'countBonsais'"
+           value='No. bonsais'
+           (change)="setStylingBy('countBonsais')"> No. bonsais
+  </div>
+  <table class="table table-sm table-bordered mt-1 text-dark table-hover">
+    <tr>
+      <th></th>
+      <th (click)="setSortListBy('fullName')">Name</th>
+      <th (click)="setSortListBy('family')">Family</th>
+      <th (click)="setSortListBy('commonName')">Common name</th>
+      <th (click)="setSortListBy('generalType')">Type</th>
+      <th (click)="setSortListBy('countBonsais')">No. bonsais</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let item of getTaxonPage() trackBy:getID"
+        [ngStyle]="getTaxonRowStyle(item)"
+        [class.bg-success]="getSelected(item)"
+        (mouseover)="mouseoverTaxonID=item.id"
+        (click)="selectedTaxon=item; newBonsaiCount=item.countBonsais">
+      <td [class.bg-danger]="getMouseOvered(item)"></td>
+      <td >{{item.fullName}}</td>
+      <td>{{item.family}}</td>
+      <td>{{item.commonName}}</td>
+      <td>{{item.generalType}}</td>
+      <td>{{item.countBonsais}}</td>
+      <td><button type="button" class="btn btn-xs btn-secondary btn-outline-danger btn-del" (click)="selectedTaxon=item; delTaxon()">x</button></td>
+    </tr>
+  </table>
+
+  <div class="clearfix">
+  <div class="btn-group float-right">
+    <button *counter="let page of pageCount" (click)="changePage(page)"
+            class="btn btn-outline-primary"
+            [class.active]="page == selectedPage">
+      {{page}}
+    </button>
+  </div>
+  </div>
+  <hr/>
+
+  <div class="w-50 text-dark">
+  <div class="form-group">
+    <label>Family</label>
+    <input class="form-control" [(ngModel)]="newTaxon.family" />
+  </div>
+  <div class="form-group">
+    <label>Genus</label>
+    <input class="form-control" [(ngModel)]="newTaxon.genus" />
+  </div>
+  <div class="form-group">
+    <label>Species</label>
+    <input class="form-control" [(ngModel)]="newTaxon.species" />
+  </div>
+  <div class="form-group">
+    <label>Cultivar</label>
+    <input class="form-control" [(ngModel)]="newTaxon.cultivar" />
+  </div>
+  <div class="form-group">
+    <label>Common name</label>
+    <input class="form-control" [(ngModel)]="newTaxon.commonName" />
+  </div>
+  <div class="form-group">
+    <label>General type</label>
+    <input class="form-control" [(ngModel)]="newTaxon.generalType" />
+  </div>
+  <div class="form-group">
+    <label>No. bonsais</label>
+    <input class="form-control" [(ngModel)]="newTaxon.countBonsais" />
+  </div>
+  <button class="btn btn-primary float-right mt-2" (click)="addTaxon()">Create</button>
+  </div>
+</div>
+
