@@ -12,7 +12,7 @@ export class TaxonRepository {
   private filterBy = '';
   private pageNo = 0;
   private pageCount = 0;
-  private locator = (s: Taxon, id: number) => s.id === id;
+  private locator = (t: Taxon, id: number) => t.id == id;
 
 
   constructor(private dataSource: RestDataSource) {
@@ -32,7 +32,7 @@ export class TaxonRepository {
 
   getTaxon(id: number): Taxon {
     // might need to call repository
-    return this.taxonPage.find(s => this.locator(s, id));
+    return this.taxonPage.find(t => this.locator(t, id));
   }
 
   getTaxaCount(): number {

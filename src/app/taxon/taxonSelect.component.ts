@@ -8,16 +8,22 @@ import { Taxon } from './taxon.model';
   templateUrl: 'taxonSelect.html',
   styleUrls: ['./taxon.component.css']
 })
-@Injectable()
 export class TaxonSelectComponent {
+
   constructor(private model: TaxonRepository) { }
+
   selectedTaxon: Taxon = null;
+  selectedTaxonId: number = null;
 
   sortListBy = 'fullName';
   sortListOrder = 'ASC';
   taxaPerPage = 20;
   selectedPage = 1;
 
+  onChange() {
+    this.selectedTaxon = this.model.getTaxon(this.selectedTaxonId);
+  }
+  
   // TODO
   getTaxonByPosition(position: number): Taxon {
     return this.model.getTaxonPage()[position];

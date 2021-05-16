@@ -1,7 +1,6 @@
 <label>Select a taxon: </label>
-<select>
-    <option *ngFor="let item of getTaxonPage() trackBy:getID"
-        (click)="selectedTaxon=item">
+<select (change)="onChange()" [(ngModel)]="selectedTaxonId" >
+    <option *ngFor="let item of getTaxonPage() trackBy:getID" value={{item.id}}>
 
       {{item.fullName}}
 
