@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { TaxonRepository } from './taxonRepository.model';
 import { Taxon } from './taxon.model';
@@ -8,22 +8,44 @@ import { Taxon } from './taxon.model';
   templateUrl: 'taxonSelect.html',
   styleUrls: ['./taxon.component.css']
 })
-export class TaxonSelectComponent {
+export class TaxonSelectComponent implements OnChanges {
 
   constructor(private model: TaxonRepository) { }
 
   selectedTaxon: Taxon = null;
-  selectedTaxonId: number = null;
+  //TODO rather have filter as input property
+  @Input()
+  selectedTaxonId: number;
 
   sortListBy = 'fullName';
   sortListOrder = 'ASC';
   taxaPerPage = 20;
   selectedPage = 1;
 
+  @Output()
+  selectedTaxonChanged: EventEmitter<Taxon> = new EventEmitter();
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    for (let property in changes) {
+      if (property === 'selectedTaxonId') {
+        console.log('Previous:', changes[property].previousValue);
+        console.log('Current:', changes[property].currentValue);
+        console.log('firstChange:', changes[property].firstChange);
+      }
+    }
+  }
+
+
   onChange() {
     this.selectedTaxon = this.model.getTaxon(this.selectedTaxonId);
+    this.selectedTaxonChanged.emit(this.selectedTaxon);
   }
-  
+
+  getSelectedTaxon(): Taxon {
+    return this.selectedTaxon;
+  }
+
   // TODO
   getTaxonByPosition(position: number): Taxon {
     return this.model.getTaxonPage()[position];

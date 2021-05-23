@@ -65,7 +65,7 @@
 
   <div class="w-50 text-dark">
     <div class="form-group">
-      <app-taxon-select></app-taxon-select>
+      <app-taxon-select [selectedTaxonId]=selectedTaxonId (selectedTaxonChanged)="selectedTaxonChangedHandler($event)"></app-taxon-select>
     </div>
     <div class="form-group">
       <label>Tag</label>
@@ -88,6 +88,7 @@
       <input class="form-control" [(ngModel)]="newBonsai.style" />
     </div>
     <button class="btn btn-primary float-right mt-2" (click)="addBonsai()">Create</button>
+    <button class="btn btn-primary float-right mt-2" (click)="incrementSelectedTaxonId()">Test child</button>
   </div>
 </div>
 

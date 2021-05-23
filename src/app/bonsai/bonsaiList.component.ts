@@ -3,6 +3,7 @@ import { BonsaiRepository } from './bonsaiRepository.model';
 import { TaxonSelectComponent } from '../taxon/taxonSelect.component';
 // import { TaxonRepository } from '../taxon/taxonRepository.model';
 import { Bonsai } from './bonsai.model';
+import { Taxon } from '../taxon/taxon.model';
 import { LOCALE_ID, Inject } from '@angular/core';
 
 @Component({
@@ -17,10 +18,9 @@ export class BonsaiListComponent {
   }
   stylingBy = 'style';
   selectedBonsai: Bonsai = null;
+  selectedTaxonId: number;
   mouseoverBonsaiID = 0;
   newBonsaiTag: number = null;
-
-  // selectTaxon = new TaxonSelectComponent();
 
   sortListBy = 'tag';
   sortListOrder = 'ASC';
@@ -129,6 +129,7 @@ export class BonsaiListComponent {
 
   addBonsai() {
     if (this.newBonsai.tag) {
+      //this.newBonsai.taxon = selectTaxon.getSelectedTaxon();
       this.model.saveBonsai(this.newBonsai);
       this.newBonsai = new Bonsai();
     }
@@ -144,5 +145,11 @@ export class BonsaiListComponent {
     this.model.deleteBonsai(this.selectedBonsai);
   }
 
+  incrementSelectedTaxonId() {
+    this.selectedTaxonId++;
+  }
 
+  selectedTaxonChangedHandler(newTaxon: Taxon) {
+    this.newBonsai.taxon = newTaxon;
+  }
 }
