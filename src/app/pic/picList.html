@@ -1,0 +1,74 @@
+<div class="text-white m-2">
+  <div class="bg-info p-2">
+    There are {{getPicsCount()}} pictures.
+  </div>
+  <div class="bg-info text-white p-2">
+    Selected Picture: {{selectedPic?.title || '(None)'}}
+  </div>
+  <div *ngIf="selectedPic" class="form-group w-25">
+    <img [src]="getPicThumb()" /> 
+    <div class="clearfix">
+    <button class="btn btn-primary float-right mt-2">Update</button>
+    </div>
+  </div>
+  <div class="bg-secondary">
+    Choose styling:
+    <input type="radio" name="listStyle"
+                           [checked]="stylingBy === 'entityType'"
+                           value='Entity type'
+                           (change)="setStylingBy('entityType')"> Type
+  </div>
+  <table class="table table-sm table-bordered mt-1 text-dark table-hover">
+    <tr>
+      <th></th>
+      <th (click)="setSortListBy('entityType')">Type</th>
+      <th (click)="setSortListBy('entityId')">Entity ID</th>
+      <th (click)="setSortListBy('title')">Title</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let item of getPicsPage() trackBy:getID"
+        [ngStyle]="getPicRowStyle(item)"
+        [class.bg-success]="getSelected(item)"
+        (mouseover)="mouseoverPicID=item.id"
+        (click)="selectedPic=item;">
+      <td [class.bg-danger]="getMouseOvered(item)"></td>
+      <td >{{item.entityType}}</td>
+      <td>{{item.entityId}}</td>
+      <td>{{item.title}}</td>
+      <td></td>
+      <td><button type="button" class="btn btn-xs btn-secondary btn-outline-danger btn-del" (click)="selectedPic=item; delPic()">x</button></td>
+    </tr>
+  </table>
+
+  <div class="clearfix">
+  <div class="btn-group float-right">
+    <button *counter="let page of pageCount" (click)="changePage(page)"
+            class="btn btn-outline-primary"
+            [class.active]="page == selectedPage">
+      {{page}}
+    </button>
+  </div>
+  </div>
+  <hr/>
+
+  <div class="w-50 text-dark">
+  <div class="form-group">
+    <label>Entity type</label>
+    <input class="form-control" [(ngModel)]="newPic.entityType" />
+  </div>
+  <div class="form-group">
+    <label>Entity Id</label>
+    <input class="form-control" [(ngModel)]="newPic.entityId" />
+  </div>
+  <div class="form-group">
+    <label>Title</label>
+    <input class="form-control" [(ngModel)]="newPic.title" />
+  </div>
+  <div class="form-group">
+    <label>Load image</label>
+    <input class="form-control" value="TODO"/>
+  </div>
+  <button class="btn btn-primary float-right mt-2" (click)="addPic()">Create</button>
+  </div>
+</div>
+

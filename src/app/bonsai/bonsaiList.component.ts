@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { BonsaiRepository } from './bonsaiRepository.model';
 import { TaxonSelectComponent } from '../taxon/taxonSelect.component';
-// import { TaxonRepository } from '../taxon/taxonRepository.model';
 import { Bonsai } from './bonsai.model';
 import { Taxon } from '../taxon/taxon.model';
 import { LOCALE_ID, Inject } from '@angular/core';

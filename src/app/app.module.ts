@@ -10,11 +10,15 @@ import { HomeComponent } from './home';
 import { TaxonListComponent } from './taxon';
 import { TaxonSelectComponent } from './taxon';
 import { BonsaiListComponent } from './bonsai';
+import { PicListComponent } from './pic';
+import { PicSelectComponent } from './pic';
 import { ModelModule } from './model.module';
 
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent, TaxonListComponent, TaxonSelectComponent, BonsaiListComponent, CounterDirective
+    AppComponent, HomeComponent, TaxonListComponent, TaxonSelectComponent,
+    PicListComponent, PicSelectComponent,
+    BonsaiListComponent, CounterDirective
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,8 @@
+<label>Select a picture: </label>
+<select (change)="onChange()" [(ngModel)]="selectedPicId" >
+    <option *ngFor="let item of getPicsPage() trackBy:getID" value={{item.id}}>
+
+      {{item.title}}
+
+    </option>
+</select>
