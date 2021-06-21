@@ -44,16 +44,14 @@ export class PicRepository {
     let p: Pic = this.picsPage.find((t) => this.locator(t, id));
     console.log('has thumb?');
     console.log(p);
-    if (p.thumb == null || p.thumb == undefined) {
+    if (p.imgThumb == null || p.imgThumb == undefined) {
       console.log('retrieving thumbnail');
       this.dataSource.getPicImage(p.id, true).subscribe((data) => {
         console.log('data: ' + data);
         var reader = new FileReader();
         reader.readAsDataURL(data); 
         reader.onloadend = function() {
-          let thumb = reader.result;   
-          console.log(thumb);
-          p.thumb = thumb.toString();
+          p.imgThumb = reader.result.toString();
         }
         console.log('got thumbnail');
         return p;
@@ -80,8 +78,8 @@ export class PicRepository {
     return '';
   }
 
-  getThumbObservable(id: number): Observable<Blob> {
-    return this.dataSource.getPicImage(id, true);
+  getImgObservable(id: number, thumbNotFull: boolean = false): Observable<Blob> {
+    return this.dataSource.getPicImage(id, thumbNotFull);
   }
 
   getPicsCount(): number {

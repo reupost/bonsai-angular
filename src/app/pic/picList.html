@@ -6,7 +6,7 @@
     Selected Picture: {{selectedPic?.title || '(None)'}}
   </div>
   <div *ngIf="selectedPic" class="form-group w-25">
-    <img [src]="getPicThumb()" /> 
+    <img [src]="getPicImg(selectedPic, false)" /> 
     <div class="clearfix">
     <button class="btn btn-primary float-right mt-2">Update</button>
     </div>
@@ -35,7 +35,7 @@
       <td >{{item.entityType}}</td>
       <td>{{item.entityId}}</td>
       <td>{{item.title}}</td>
-      <td></td>
+      <td><img [src]="getPicImg(item, true)" /></td>
       <td><button type="button" class="btn btn-xs btn-secondary btn-outline-danger btn-del" (click)="selectedPic=item; delPic()">x</button></td>
     </tr>
   </table>

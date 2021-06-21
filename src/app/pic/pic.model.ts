@@ -7,6 +7,6 @@ export class Pic {
               public dimX?: number, public dimY?: number,
               public dimXthumb?: number, public dimYthumb?: number,
               public imageURL?: string, public thumbURL?: string,
-              public thumb?: string) {
+              public imgThumb?: string, public imgFull?: string) {
   }
 }

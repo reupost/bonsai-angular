@@ -27,39 +27,40 @@ export class PicListComponent {
     return this.model.getPicsPage()[position];
   }
 
-  getPicTitle(key: number): string {
-    if (key !== 0) {
-      const p = this.model.getPicWithThumb(key);
-      return p.title;
+  public getPicImg(pic: Pic, thumbNotFull: boolean = false): SafeUrl {
+    var toGet = false;
+    if (thumbNotFull) {
+      toGet = (pic.imgThumb == undefined || pic.imgThumb == null || pic.imgThumb == '');
     } else {
-      return '(None)';
+      toGet = (pic.imgFull == undefined || pic.imgFull == null || pic.imgFull == '');
     }
-  }
-
-  public getPicThumb(): SafeUrl {
-    if (this.selectedPic.thumb == undefined || this.selectedPic.thumb == null || this.selectedPic.thumb == '') {
-      console.log('selectedPic thumb needed');
-      console.log(this.selectedPic);
-      this.model.getThumbObservable(this.selectedPic.id).subscribe((data) => {
-        console.log('data: ' + data);
+    if (toGet) {
+      console.log('pic needed - ' + (thumbNotFull? 'thumb' : ' full'));
+      console.log(pic);
+      this.model.getImgObservable(pic.id, thumbNotFull).subscribe((data) => {
         var reader = new FileReader();
         reader.readAsDataURL(data); 
-        reader.onloadend = (function(pic) {
+        reader.onloadend = (function(pic, thumbNotFull) {
           return function() {
-            let thumb = reader.result.toString();   
-            console.log('got thumbnail');
-            pic.thumb = thumb;
+            let img = reader.result.toString();   
+            console.log('got img');
+            if (thumbNotFull) {
+              pic.imgThumb = img;
+            } else {
+              pic.imgFull = img;
+            }
           }
-        })(this.selectedPic); 
+        })(pic, thumbNotFull); 
       });
+      
     } else {
-      console.log('already have thumb!');
-      return this.sanitizer.bypassSecurityTrustUrl(this.selectedPic.thumb); 
+      console.log('already have ' + (thumbNotFull? 'thumb' : ' full') + ' image');
+      if (thumbNotFull) {
+        return this.sanitizer.bypassSecurityTrustUrl(pic.imgThumb); 
+      } else {
+        return this.sanitizer.bypassSecurityTrustUrl(pic.imgFull); 
+      }
     }
-  }
-
-  getPic(key: number): Pic {
-    return this.model.getPicWithThumb(key);
   }
 
   getPicsPage(): Pic[] {

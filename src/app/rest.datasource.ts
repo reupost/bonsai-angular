@@ -102,7 +102,7 @@ export class RestDataSource {
     return this.http.delete<void>(this.baseUrl + "pic/pic/del/" + pic.id);
   }
 
-  getPicImage(id: number, thumbNotFull: boolean): Observable<Blob> {
+  getPicImage(id: number, thumbNotFull: boolean = false): Observable<Blob> {
   
     //const encode = (str: string):string => Buffer.from(str, 'binary').toString('base64');
     const params = new HttpParams().set("id", id.toString());
