@@ -6,7 +6,7 @@
     Selected Picture: {{selectedPic?.title || '(None)'}}
   </div>
   <div *ngIf="selectedPic" class="form-group w-25">
-    <img [src]="getPicImg(selectedPic, false)" /> 
+    <img [src]="getPicImg(selectedPic, false)" style="max-width:1000px;max-height:600px;height:auto" /> 
     <div class="clearfix">
     <button class="btn btn-primary float-right mt-2">Update</button>
     </div>
