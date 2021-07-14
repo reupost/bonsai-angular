@@ -30,38 +30,50 @@ export class PicListComponent {
   public getPicImg(pic: Pic, thumbNotFull: boolean = false): SafeUrl {
     var toGet = false;
     if (thumbNotFull) {
-      toGet = (pic.imgThumb == undefined || pic.imgThumb == null || pic.imgThumb == '');
+      toGet = (pic.imgThumb == undefined || pic.imgThumb == null);
     } else {
-      toGet = (pic.imgFull == undefined || pic.imgFull == null || pic.imgFull == '');
+      toGet = (pic.imgFull == undefined || pic.imgFull == null);
     }
     if (toGet) {
-      console.log('pic needed - ' + (thumbNotFull? 'thumb' : ' full'));
-      console.log(pic);
+      // console.log(pic.id + ': pic needed - ' + (thumbNotFull? 'thumb' : ' full'));
+      // console.log(pic);
+      // HACK to prevent repeated calls while the image is being loaded
+      if (thumbNotFull) {
+        pic.imgThumb = '';
+      } else {
+        pic.imgFull = '';
+      }
+
       this.model.getImgObservable(pic.id, thumbNotFull).subscribe((data) => {
+        // console.log(pic.id + ': got data from getImgObservable');
         var reader = new FileReader();
         reader.readAsDataURL(data); 
-        reader.onloadend = (function(pic, thumbNotFull) {
-          return function() {
-            let img = reader.result.toString();   
-            console.log('got img');
-            if (thumbNotFull) {
-              pic.imgThumb = img;
-            } else {
-              pic.imgFull = img;
-            }
+
+        reader.onloadend = (e) => {
+          let img = reader.result.toString();   
+          // console.log(pic.id + ': got img');
+          if (thumbNotFull) {
+            pic.imgThumb = img;
+          } else {
+            pic.imgFull = img;
           }
-        })(pic, thumbNotFull); 
+        }
       });
-      
+     
     } else {
-      console.log('already have ' + (thumbNotFull? 'thumb' : ' full') + ' image');
       if (thumbNotFull) {
-        return this.sanitizer.bypassSecurityTrustUrl(pic.imgThumb); 
+        if (pic.imgThumb != '') {
+          return this.sanitizer.bypassSecurityTrustUrl(pic.imgThumb); 
+        } 
       } else {
-        return this.sanitizer.bypassSecurityTrustUrl(pic.imgFull); 
+        if (pic.imgFull != '') {
+          return this.sanitizer.bypassSecurityTrustUrl(pic.imgFull); 
+        } 
       }
     }
   }
+
+  
 
   getPicsPage(): Pic[] {
     return this.model.getPicsPage();
