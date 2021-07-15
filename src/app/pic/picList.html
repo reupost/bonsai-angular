@@ -1,14 +1,14 @@
 <div class="text-white m-2">
   <div class="bg-info p-2">
-    There are {{getPicsCount()}} pictures.
+    There are <span id="picCountText">{{getPicsCount()}}</span> pictures.
   </div>
   <div class="bg-info text-white p-2">
     Selected Picture: {{selectedPic?.title || '(None)'}}
   </div>
   <div *ngIf="selectedPic" class="form-group w-25">
-    <img [src]="getPicImg(selectedPic, false)" style="max-width:1000px;max-height:600px;height:auto" /> 
+    <img id="selectedPicFullImg" [src]="getPicImg(selectedPic, false)" style="max-width:1000px;max-height:600px;height:auto" /> 
     <div class="clearfix">
-    <button class="btn btn-primary float-right mt-2">Update</button>
+    <button id="updateSelectedPicButton" class="btn btn-primary float-right mt-2">Update</button>
     </div>
   </div>
   <div class="bg-secondary">
@@ -18,8 +18,8 @@
                            value='Entity type'
                            (change)="setStylingBy('entityType')"> Type
   </div>
-  <table class="table table-sm table-bordered mt-1 text-dark table-hover">
-    <tr>
+  <table id="picListTable" class="table table-sm table-bordered mt-1 text-dark table-hover">
+    <tr id="picListTableTitleRow">
       <th></th>
       <th (click)="setSortListBy('entityType')">Type</th>
       <th (click)="setSortListBy('entityId')">Entity ID</th>
@@ -30,7 +30,8 @@
         [ngStyle]="getPicRowStyle(item)"
         [class.bg-success]="getSelected(item)"
         (mouseover)="mouseoverPicID=item.id"
-        (click)="selectedPic=item;">
+        (click)="selectedPic=item;"
+        id="picWithID{{item.id}}">
       <td [class.bg-danger]="getMouseOvered(item)"></td>
       <td >{{item.entityType}}</td>
       <td>{{item.entityId}}</td>
